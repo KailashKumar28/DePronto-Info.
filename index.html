@@ -1,0 +1,260 @@
+<html>
+	<head>
+		<title>Image Gallery</title>
+
+		<!-- import bootstrap -->
+		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css"
+		rel="stylesheet"
+		integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor"
+		crossorigin="anonymous"
+	  />
+		<!-- <link rel="stylesheet"
+			  type="text/css"
+			  href="bootstrap.css"
+		      /> -->
+
+		<!-- import our own stylesheet -->
+	
+		<link rel="stylesheet"
+			  type="text/css"
+			  href="styles.css"
+		      />	
+
+		<!-- import jQuery -->
+		<script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
+	</head>
+	<body>
+		
+
+		</hr>
+	<div class="container">
+
+
+
+		<!-- slideshow start -->
+		<h1>Image Gallery</h1>
+
+		<!--
+		   These are the thumbnail images.
+		   They pretty much the same as the 
+		   last example from the previous
+		   module, except I have added an
+		   id to each image which includes
+		   the number of that image.
+		-->
+		<div class="row">
+			<div class="col-md-3">
+				<img id="image1" 
+				 class="crop-img" src="img_1.jpg" alt="graffittied building"/> 
+			</div>
+			<div class="col-md-3">
+				<img id="image2" class="crop-img" src="img_3.jpg" alt="display of cheese"/> 
+			</div>
+			<div class="col-md-3">
+				<img id="image3" class="crop-img" src="img_4.jpg" alt="synethesizer workshop"/> 
+			</div>
+			<div class="col-md-3">
+				<img id="image4" class="crop-img" src="img_5.jpg" alt="City night"/> 
+			</div>
+		</div>
+		<!--
+			this is the large image which is
+			on a row of its own. 
+			The code is similar to the last example
+			of the previous module, but I have
+			added a backwards and forwards button
+		-->
+		<div class="row">
+			<div class="col-md-1">
+				<button class = "carousel-control-prev" id="backward">&lt;</button>
+			</div>
+			<div class="col-md-10">
+				<img id="bigImage" class="large-img" src="img_1.jpg" alt="graffittied building"/> 
+			</div>
+			<div class="col-md-1">
+				<button class = "carousel-control-prev" id="forward">&gt;</button>
+			</div>
+		</div>
+		<!-- slideshow end -->
+
+
+		<!-- /Todos start -->
+		<h1>Todos</h1>
+		<!-- showing url objects data in table -->
+		<table class="table table-success table-striped" id="Todo"></table>
+		<br>
+		<!-- Todos end -->
+
+		<!-- Form start -->
+		<h1>Feedback From</h1>
+		<form id = "myform" >
+			<div class="mb-3 row">
+				<label for="name" class="col-sm-2 col-form-label">Name</label>
+				<div class="col-sm-5">
+				  <input type="text" class="form-control" id="name">
+				</div>
+			  </div>
+			<br>
+
+			<!-- date -->
+			<div class="mb-3 row col-auto">
+				<label for="date" class="col-sm-2 col-form-label">Date</label>
+			  	<div class="col-sm-5">
+					<input type="date" id="date" class="form-control" />
+				</div>
+			</div>
+			<br>
+			
+			<!-- feedback title -->
+			<div class="mb-3 row">
+				<label for="feedback_title" class="col-sm-2 col-form-label">Feedback Title</label>
+				<div class="col-sm-5">
+				  <input type="text" class="form-control" id="feedback_title">
+				</div>
+			  </div>
+			<!-- message box -->
+			<div class="mb-3 row">
+				<label for="message" class ="col-sm-2 col-form-label">Message</label>
+				<div class="col-sm-5">
+					<textarea name="Message" class="form-control" id="message" cols="30" rows="6"></textarea>
+				  </div>
+			</div>
+			
+			<br>
+			
+			<!-- check box -->
+			<div class=" form-check">
+				<input class="col-sm-2 form-check-input" type="checkbox" value="" id="flexCheckDefault">
+				<div class="col-sm-5">
+					<label class="form-check-label" for="flexCheckDefault">  By checking this box, you are agreeing to our terms of service.</label>
+				</div>
+				
+			</div>
+			<br>
+			<!-- gender select -->
+			<div class="mb-3 row form-check form-check-inline">
+				<label class="form-check-label" for="inlineCheckbox3">Gender</label>
+			</div>
+			<div class="form-check form-check-inline">
+				<input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">
+				<label class="form-check-label" for="inlineCheckbox1">Male</label>
+			  </div>
+			  <div class="form-check form-check-inline">
+				<input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="option2">
+				<label class="form-check-label" for="inlineCheckbox2">Female</label>
+			  </div>
+			  <div class="form-check form-check-inline">
+				<input class="form-check-input" type="checkbox" id="inlineCheckbox3" value="option3">
+				<label class="form-check-label" for="inlineCheckbox3">other</label>
+			  </div>
+			<br>
+
+			<!-- submit form -->
+			<div class="col-12">
+				<button class="btn btn-primary" type="submit">Submit form</button>
+			  </div>
+		  </form>
+		<!-- Form ends -->
+	</div>
+
+
+	
+	<!-- slideshow animation script -->
+	<script>
+		// whether the slideshow is paused or not
+		var paused = false;
+
+		// when you click on a thumbnail
+		// it sets the src of the big image
+		// to be the same as the image
+		// you clicked on
+		$(".crop-img").click(function(){
+			$("#bigImage").attr('src', 
+				$(this).attr('src'));
+		});
+
+		// the counter variable that keeps
+		// track of which image you are showing
+		var counter = 1;
+		// virtually click on the current
+		// image to load it into the big image
+		$("#image"+counter).click();
+
+		// when you click on the backwards
+		// button select the previous image
+		$("#backward").click(function (){
+			// go back one in the counter
+			counter = counter - 1;
+			// if we are below 1 (the first
+			// image) loop round to 4 (the
+			// last image)
+			if(counter < 1){
+				counter = 4;
+			}
+			// virtually click on the current
+			// image to load it into the big image
+			$("#image"+counter).click();
+		});
+
+		// when you click on the backwards
+		// button select the next image
+		$("#forward").click(function (){
+			// go forward one in the counter
+			counter = counter + 1;
+			// if we are above 4 (the last
+			// image) loop round to 1 (the
+			// first image)
+			if(counter > 4){
+				counter = 1;
+			}
+			// virtually click on the current
+			// image to load it into the big image
+			$("#image"+counter).click();
+		});
+
+		// when you click the big image 
+		// toggle pausing. Set paused to 
+		// not paused, i.e. if it is paused
+		// set it to not paused, if it is 
+		// not paused set it to paused
+		$("#bigImage").click(function (){
+			paused = !paused;
+		});
+
+		// set interval makes it move 
+		// forward every 3 second
+		setInterval(function (){
+			// first check if it is paused
+			if(!paused){
+				// virtual click the forward
+				// button
+				$("#forward").click();
+			};
+		}, 3000);
+	</script>
+	<!-- my js file for fetch -->
+    <script src="./fetch_url.js"></script>
+
+	<script>
+		const myform = document.getElementById(myform);
+		myform.addEventListener("submit", (e) => {
+			e.preventDefault();
+
+			const request = new XMLHttpRequest();
+			request.open("post", "submit.php")
+			request.onload = function(){
+				console.log(request.responseText);
+			}
+			request.send(new FormData(myform));
+		})
+	</script>
+
+	</body>
+</html>
+
+
+
+
+
+
+
